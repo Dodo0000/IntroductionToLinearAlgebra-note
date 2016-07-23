@@ -42,8 +42,10 @@ $$
   A=\begin{bmatrix} 0.9 & 0.2 \\ 0.1 & 0.8 \end{bmatrix}, u=\begin{bmatrix} 0 \\ 1000 \end{bmatrix}
 $$
 
+参考教材上的反例，主流是不会奇异，且只有一个特征值为1，其他全部绝对值小于1
 
 
-## 马尔科夫矩阵推导 可能很多
+## 马尔科夫矩阵推导
 
-## 傅里叶级数
+参考[线代随笔10-极大似然计算马尔科夫矩阵](http://bourneli.github.io/linear-algebra/statistic/optimization/2016/04/22/linear-algebra-10-maximum-likelihood-estimate-for-discrete-time-markov-chain-marix.html)
+
