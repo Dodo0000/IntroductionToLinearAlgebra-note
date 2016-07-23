@@ -1,0 +1,1 @@
+此工程记录了学习此课程的解题记录和分享笔记。线性代数在工程上应用十分广泛，我的工作是数据挖掘，在很多算法中线性代数都有很重要的作用，感觉如果问题如果可以用矩阵形式表示，就基本上成功了一般。学习此课程需要配套[MIT 18.06线性代数课程](http://open.163.com/special/opencourse/daishu.html)，并且需要有教材**Introduction to Linear Algebra, 4th edition--Gilbert Strang**，强烈建议完成每一节的习题，不难，主要加强对每一节概念理解。 

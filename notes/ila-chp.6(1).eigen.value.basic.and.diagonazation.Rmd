@@ -1,0 +1,307 @@
+---
+title: "Introduction to Linear Algebra -- 第六章(1)：特征值基础与矩阵对角化"
+author: "bourneli"
+date: "2016年7月"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+```
+
+
+## 背景
+
+这一章来到了本书的**高潮**——特征值和特征向量，由此衍生了一些列耳熟能详的应用，如矩阵对角化，（半）正定矩阵，马尔科夫链，SVD矩阵分解等等。是不是光听到这些名字就有点小激动,:-)!下面就一一回顾相关概念。
+
+## 特征值基础
+
+### 定义
+
+$Ax=b$可以理解为一个函数，将向量$x$转成另外一个向量$y$。在这种转换中，我们很关心一种转换，那就是$y$与$x$共线的情况，在不考虑向量模的情况下，这种转换相当于“没有变化”。因为在大多数情况下，$y$是与$x$不共线，只有少量特定的$x$才能得到这样的效果，非常特别。形式的表示为：
+
+$$
+  Ax = \lambda x, x \ne 0
+$$
+
+$x$称之为**特征向量**，$\lambda$称为**特征值**。若$\lambda = 0$，那么$x \in N(A)$。也就是，如果A不可逆，零空间中的向量都是其特征向量，特征值为0没有什么特殊的！但是特征向量不能是$\vec{0}$，否则没有太大研究价值。
+
+
+**例1** 假设投影矩阵$P=A(A^TA)^{-1}A^T$,
+
+* 若$x \in C(A)$，那么$Px=x$，$\lambda = 1$
+* 若$x \in N(A^T)$，那么$Px=0$,$\lambda = 0$
+* 若$x \in R^m, x \notin C(A), x \notin N(A^T)$,无特征向量
+
+**例2** 排列向量
+
+
+$$
+  P=\begin{bmatrix}
+    0 & 1 \\
+    1 & 0 
+  \end{bmatrix}
+$$
+
+当$x$的两个原始相同时，上面的排列向量不会改变$x$，$\lambda = 1$
+
+$$
+  \begin{bmatrix}
+    0 & 1 \\
+    1 & 0 
+  \end{bmatrix} 
+  \begin{bmatrix}
+    1 \\
+    1 
+  \end{bmatrix}
+  = \begin{bmatrix}
+    1 \\
+    1 
+  \end{bmatrix}
+$$
+
+当$x$的两个元素符号相反时，$\lambda = -1$，反号与位置调换抵消，
+
+$$
+  \begin{bmatrix}
+    0 & 1 \\
+    1 & 0 
+  \end{bmatrix} 
+  \begin{bmatrix}
+    -1 \\
+    1 
+  \end{bmatrix}
+  = - \begin{bmatrix}
+    1 \\
+    -1 
+  \end{bmatrix}
+$$
+
+n为矩阵最多有n个特征值，在n为矩阵上计算特征值比较困难，需要解决n次多项式。但是特征值有个性质比较好，
+
+* [迹等于特征值之和](http://math.stackexchange.com/a/413419/261790)
+根据这个列子，上面排列矩阵计算另外一个就非常简单了。
+
+### 计算方法
+
+$$
+  (A-\lambda I)x = 0
+$$
+
+不知道$\lambda$和$x$，但是可以通过上面的公式，得到$A-\lambda I$奇异，根据上一章行列式的性质，可以得到一个等式 
+
+$$
+  |A-\lambda I| = 0
+$$
+
+按照行列式性质展开，上面是一个单元n阶多项式方程，最多有n个解，得到一个代数问题。
+
+* [行列式等于特征值之积](http://math.stackexchange.com/a/507660/261790)
+
+得到$\lambda$后，计算特征向量就是顺水推舟的事情了。n个解可以不同，可以重复。重复的特征值是这个问题的难点，因为会得到过少的特征向量，导致很多事情无法完成。
+
+**例3** 特征值平移
+
+$$
+  \begin{bmatrix}
+    3 & 1 \\
+    1 & 3 
+  \end{bmatrix} 
+$$
+
+与例2很类似，只是在对角线上都是3，而不是0。$\lambda_1=2,\lambda_2=4$。
+
+其实，可以使用简化方法，
+
+$$
+  (A+3I)x=Ax+3x=(\lambda+3)x
+$$
+
+**例4** 特征值之和
+
+$$
+  Ax=\lambda x, Bx=\alpha x
+$$
+
+那么
+
+$$
+  (A+B)x = (\lambda + \alpha)x
+$$
+
+错，因为**特征向量不一定相同**。
+
+**例5** 特征值容易出现复数
+
+$$
+  Q=\begin{bmatrix}
+  0 & -1 \\
+  1 & 0
+  \end{bmatrix}
+$$
+
+直接计算，$\lambda_1=-i, \lambda_2=i$。对称得到全部实数特征值，反对称得到全部虚数特征值，介于中间得到复数特征值。
+
+*可以搞个证明，发一篇blog*
+
+**例6** 特征向量不够
+
+$$
+  Q=\begin{bmatrix}
+  3 & 1 \\
+  0 & 3
+  \end{bmatrix}
+$$
+这是所有痛苦的根源，特征值不够，导致特征向量不够，导致无法对角化 ...。
+
+
+
+
+## 对角化与矩阵的幂
+
+特征向量不够是痛苦的根源，所以这一节不考虑这个，假设特征向量充足，也就是n个线性独立的特征向量。那么，可以摆出下面的形式
+
+$$
+  AS=A\begin{bmatrix}x_1 & x_2 & \cdots & x_n\end{bmatrix}
+    =\begin{bmatrix}\lambda_1x_1 & \lambda_2x_2 & \cdots & \lambda_nx_n\end{bmatrix}
+    =\begin{bmatrix}x_1 & x_2 & \cdots & x_n\end{bmatrix}
+     \begin{bmatrix}\lambda_1 & 0 & 0 & \cdots & 0 \\
+                      0 & \lambda_2 & 0 & \cdots & 0 \\
+                      0 & 0 & \lambda_3 &  \cdots & 0 \\
+                      0 & 0 & 0 & \cdots & \lambda_n
+     \end{bmatrix}
+    =S\Lambda
+$$
+
+对角化$S^{-1}AS = \Lambda$，矩阵分解,$A=S\Lambda S^{-1}$。可以回忆一下$A=LU$分解，$A=QR$分解。
+
+### 矩阵的幂
+
+$$
+  A^2=S\Lambda S^{-1}S\Lambda S^{-1}=S\Lambda^2 S^{-1}
+$$
+
+$$
+  A^k=S\Lambda S^{-1}\cdots S \Lambda S^{-1}=S\Lambda^k S^{-1}
+$$
+
+结构很简单，如果当$|\lambda_i| \lt 1, k \rightarrow \infty$, 那么$A \rightarrow [0]$.
+
+### 特征值与特征向量的关系
+
+不同特征值必然导致特征向量不同，证明：
+
+
+反正法。
+
+假设$\lambda, \alpha$是$A$的任意特征值，且$\lambda \ne \alpha$。且有相同的特征向量$x \ne 0$，
+
+$$
+  Ax = \lambda x \quad (1)
+$$
+
+$$
+  Ax = \alpha x \quad (2)
+$$
+
+$(2)-(1)$得到$\vec{0}=(\lambda - \alpha)x$，得到矛盾。
+
+
+证毕！  
+
+
+如果存在重复特征值，那么有可能存在n个不同特征值，也有可能不存在。
+
+比如$A=I，n=10$，特征值都是1，但是有10个不同特征向量。例6却不行。  
+
+
+### $u_k=Au_k=A^ku_0$求解
+
+由于S矩阵满秩，所以
+
+$$
+  u_0 = c_1x_1 + \cdots + c_nx_n = Sc
+$$
+
+迭代展开$u_k$，
+
+$$
+  u_k=A^ku_0=S\Lambda^k S^{-1}Sc=S\Lambda^k c = \sum_{i=1}^n{x_i\lambda_i^kc_i}
+$$
+
+$u_k$的值只与k有关，因为A确定后，其他量就是常量。
+
+
+### 斐波那契数使用矩阵幂求解
+
+斐波那契数：$0,1,1,2,3,5,8, \cdots$，即$f_{n+1} = f_n+f_{n-1}，n = 1,2,\cdots$
+
+可以将斐波那契数组成向量形式，采用矩阵幂求解
+
+$$
+  u_{k+1}=\begin{bmatrix} f_{k+2}\\ f_{k+1}\end{bmatrix},
+  u_{k}=\begin{bmatrix} f_{k+1}\\ f_{k}\end{bmatrix}
+$$
+
+可导出
+
+$$
+  u_{k+1}=\begin{bmatrix} 
+  1 & 1 \\ 1 & 0 
+  \end{bmatrix}
+  \begin{bmatrix} f_{k+1}\\ f_{k}\end{bmatrix}
+  = Au_k \Rightarrow u_k=A^ku_0, u_0 = \begin{bmatrix} 1 \\ 0 \end{bmatrix}
+$$
+
+得到了属性的形式，求解A的特征值，得到$\lambda_1 = \frac{1+\sqrt{5}}{2} \approx 1.618, \lambda_2 = \frac{1-\sqrt{5}}{2} \approx -0.618$。
+
+对应$x_1=\begin{bmatrix} \frac{1+\sqrt{5}}{2} \\ 1 \end{bmatrix},x_2=\begin{bmatrix} \frac{1-\sqrt{5}}{2} \\ 1 \end{bmatrix}$。
+
+求解下面线性方程，计算系数向量$c$，
+
+$$
+  \begin{bmatrix} 
+    \frac{1+\sqrt{5}}{2} &  \frac{1-\sqrt{5}}{2} \\ 
+    1 & 1 
+  \end{bmatrix} 
+  \begin{bmatrix} c_1 \\ c_2 \end{bmatrix} = 
+  \begin{bmatrix} 1 \\ 0 \end{bmatrix} 
+$$
+
+可得$c_1=\frac{1}{\sqrt{5}},x_2=\frac{-1}{\sqrt{5}}$。将计算得到的所有中间结果代入上面的矩阵幂方程，得到最终结果
+
+$$
+  u_k = \begin{bmatrix} f_{k+1} \\ f_k \end{bmatrix}
+   = \frac{1}{\sqrt{5}}\begin{bmatrix}
+   \left(\frac{1+\sqrt{5}}{2}\right)^{k+1} - \left(\frac{1-\sqrt{5}}{2}\right)^{k+1} \\
+   \left(\frac{1+\sqrt{5}}{2}\right)^{k} - \left(\frac{1-\sqrt{5}}{2}\right)^{k}
+   \end{bmatrix}
+$$
+
+最后，得到$f_k$的解，
+
+$$
+f_k = \frac{1}{\sqrt{5}} 
+\left[ \left(\frac{1+\sqrt{5}}{2}\right)^{k} - \left(\frac{1-\sqrt{5}}{2}\right)^{k} \right]
+$$
+
+收敛程度由$\lambda_1 = \frac{1+\sqrt{5}}{2} \approx 1.618$控制。
+
+
+
+**问题1**
+
+n=2方阵，$A^3=I$，计算特征值。（按照公式展开，解$\lambda^3=1$）
+
+
+**问题2**
+
+如果$A=S\Lambda S^{-1}$,计算$B=\begin{bmatrix} A & 0 \\ 0 & 2A \end{bmatrix}$的特征值和特征向量。
+
+
+$$
+  B = \begin{bmatrix} S & 0 \\ 0 & S \end{bmatrix}
+  \begin{bmatrix} \Lambda & 0 \\ 0 & 2\Lambda \end{bmatrix}
+  \begin{bmatrix} S^{-1} & 0 \\ 0 & S^{-1} \end{bmatrix}
+$$
+
