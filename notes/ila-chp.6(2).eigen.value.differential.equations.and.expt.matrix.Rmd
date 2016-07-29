@@ -12,7 +12,22 @@ output: html_document
 
 ## 微分方程
 
-### 问题，求解下面的微分方程
+回顾常系数纤细微分方程，
+
+$$
+  \frac{dy}{dt} = ay
+$$
+
+
+其解为，
+
+$$
+  y = Ce^{at}
+$$
+
+直接代入可以验证。
+
+### 常系数微分方程扩展到矩阵形式
 
 $$
   \frac{du}{dt}=Au
@@ -324,7 +339,47 @@ $$
 $$
 
 
-**例子** 使用方波的例子
+**练习** 方波的傅里叶级数展开
+
+设$[0,2\pi]$之间的方波函数如下，
+
+$$
+  f(x) =
+\begin{cases}
+1,  & x \in [0,\pi) \\
+-1, & x \in (\pi,2\pi]
+\end{cases}
+$$
  
-**练习**
+根据上面公式，分别计算$a_0,a_n和b_n$,
+
+$$
+  a_0 = \frac{1}{2\pi}
+  \left(\int_{0}^{\pi}1dx + \int_{\pi}^{2\pi}(-1)dx  \right) 
+  = 0 \\
+  a_n = \frac{1}{\pi}\left(\int_{0}^{\pi}\cos(nx)dx + \int_{\pi}^{2\pi}(-1)\cos(nx)dx  \right)
+  =\frac{1}{\pi n}\left[\sin(nx)\right]_{0}^{\pi}-\frac{1}{\pi n} \left[\sin(nx)\right]_{\pi}^{2\pi} = 0 \\
+  b_n = \frac{1}{\pi}\left(\int_{0}^{\pi}\sin(nx)dx + \int_{\pi}^{2\pi}(-1)\sin(nx)dx  \right) 
+  =\frac{1}{\pi n}\left[-\cos(nx)\right]_{0}^{\pi}-\frac{1}{\pi n} \left[-\cos(nx)\right]_{\pi}^{2\pi} = \frac{2}{\pi n}(1-\cos(n\pi))
+$$
+
+对于$b_n$，需要根据奇偶来计算具体值,
+
+$$
+  b_n = \begin{cases}
+  \frac{4}{n\pi}, & n是奇数\\
+  0, & n是偶数
+  \end{cases}
+$$
+
+
+所以，最后展开结果为：
+
+$$
+f(x) = \frac{4}{\pi}(\frac{\sin(x)}{1} + \frac{\sin(3x)}{3} + \frac{\sin(5x)}{5} + \cdots)
+$$
+
+
+
+ 
 

@@ -129,6 +129,15 @@ $(document).ready(function () {
 </ul>
 <div class="section level2">
 <h2>微分方程</h2>
+<p>回顾常系数纤细微分方程，</p>
+<p><span class="math">\[
+  \frac{dy}{dt} = ay
+\]</span></p>
+<p>其解为，</p>
+<p><span class="math">\[
+  y = Ce^{at}
+\]</span></p>
+<p>直接代入可以验证。</p>
 <div class="section level3">
 <h3>问题，求解下面的微分方程</h3>
 <p><span class="math">\[
@@ -356,8 +365,36 @@ f(x) = a_0 + a_1 \cos x + b_1\sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots
 <p><span class="math">\[
   \int_{0}^{2\pi} a_0 dx= \int_{0}^{2\pi}f(x)dx \Rightarrow a_0=\frac{1}{2\pi} \int_{0}^{2\pi}f(x)dx
 \]</span></p>
-<p><strong>例子</strong> 使用方波的例子</p>
-<p><strong>例题</strong></p>
+<p><strong>练习</strong> 方波的傅里叶级数展开</p>
+<p>设<span class="math">\([0,2\pi]\)</span>之间的方波函数如下，</p>
+<p><span class="math">\[
+  f(x) =
+\begin{cases}
+1,  &amp; x \in [0,\pi) \\
+-1, &amp; x \in (\pi,2\pi]
+\end{cases}
+\]</span></p>
+<p>根据上面公式，分别计算<span class="math">\(a_0,a_n和b_n\)</span>,</p>
+<p><span class="math">\[
+  a_0 = \frac{1}{2\pi}
+  \left(\int_{0}^{\pi}1dx + \int_{\pi}^{2\pi}(-1)dx  \right) 
+  = 0 \\
+  a_n = \frac{1}{\pi}\left(\int_{0}^{\pi}\cos(nx)dx + \int_{\pi}^{2\pi}(-1)\cos(nx)dx  \right)
+  =\frac{1}{\pi n}\left[\sin(nx)\right]_{0}^{\pi}-\frac{1}{\pi n} \left[\sin(nx)\right]_{\pi}^{2\pi} = 0 \\
+  b_n = \frac{1}{\pi}\left(\int_{0}^{\pi}\sin(nx)dx + \int_{\pi}^{2\pi}(-1)\sin(nx)dx  \right) 
+  =\frac{1}{\pi n}\left[-\cos(nx)\right]_{0}^{\pi}-\frac{1}{\pi n} \left[-\cos(nx)\right]_{\pi}^{2\pi} = \frac{2}{\pi n}(1-\cos(n\pi))
+\]</span></p>
+<p>对于<span class="math">\(b_n\)</span>，需要根据奇偶来计算具体值,</p>
+<p><span class="math">\[
+  b_n = \begin{cases}
+  \frac{4}{n\pi}, &amp; n是奇数\\
+  0, &amp; n是偶数
+  \end{cases}
+\]</span></p>
+<p>所以，最后展开结果为：</p>
+<p><span class="math">\[
+f(x) = \frac{4}{\pi}(\frac{\sin(x)}{1} + \frac{\sin(3x)}{3} + \frac{\sin(5x)}{5} + \cdots)
+\]</span></p>
 </div>
 
 
