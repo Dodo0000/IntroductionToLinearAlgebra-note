@@ -124,39 +124,103 @@ $(document).ready(function () {
 
 <div class="section level2">
 <h2>马尔科夫矩阵性质</h2>
-<p><span class="math">\[
+<p><strong>马尔科夫矩阵定义</strong></p>
+<ul>
+<li><span class="math">\(a_{ij} \ge 0\)</span></li>
+<li><span class="math">\(\sum_{j=1}^{n}{a_{*j}} = 1\)</span>，（也可以是行，关键看A左乘还是右乘）</li>
+</ul>
+<p><strong>例</strong> <span class="math">\[
   A = \begin{bmatrix}
     0.1 &amp; 0.01 &amp; 0.3 \\
     0.2 &amp; 0.99 &amp;0.3 \\
     0.7 &amp; 0 &amp; 0.4 \\
   \end{bmatrix}
 \]</span></p>
-<ul>
-<li><span class="math">\(a_{ij} \ge 0\)</span></li>
-<li><span class="math">\(\sum_{j=1}^{n}{a_{*j}} = 1\)</span>，也可以是行，关键看A左乘还是右乘</li>
-<li>方正</li>
-<li>可逆（待确认）</li>
-</ul>
-<p>性质</p>
-<ol style="list-style-type: decimal">
-<li><span class="math">\(\lambda = 1\)</span>是特征值（可以先用上面的A试试）</li>
-<li>其他特征值<span class="math">\(|\lambda| &lt; 1\)</span></li>
-</ol>
-<p>根据<span class="math">\(u_k=A^ku_0=\sum_{i=1}^n{x_i\lambda_i^kc_i}\)</span>可以得到最后稳态<span class="math">\(c_1x_1\)</span>。</p>
-<p><span class="math">\(\lambda=1\)</span>特征向量<span class="math">\(x=\begin{bmatrix} 0.6 \\ 33 \\ 0.7 \end{bmatrix}\)</span></p>
-</div>
-<div class="section level2">
-<h2>人口迁移例子，一线城市与非一线城市</h2>
+<p><strong>性质1</strong> <span class="math">\(\lambda = 1\)</span>是特征值（可以先用上面的A试试）</p>
+<p>证明：</p>
+<p>设向量<span class="math">\(1_n=\begin{bmatrix} 1 \\ \vdots \\ 1 \end{bmatrix}\)</span></p>
 <p><span class="math">\[
-  A=\begin{bmatrix} 0.9 &amp; 0.2 \\ 0.1 &amp; 0.8 \end{bmatrix}, u=\begin{bmatrix} 0 \\ 1000 \end{bmatrix}
+  1_n^TA = 1_n^T \Rightarrow A^T1_n=1_n
 \]</span></p>
-</div>
-<div id="-" class="section level2">
-<h2>马尔科夫矩阵推导 可能很多</h2>
+<p>根据定义，上面必然成立！所以1是<span class="math">\(A^T\)</span>特征值，根据特征值定义<span class="math">\(A\)</span>与<span class="math">\(A^T\)</span>特征值相同，所以1必然是<span class="math">\(A\)</span>特征值。</p>
+<p>证毕！</p>
+<p><strong>性质2</strong> 特征值<span class="math">\(|\lambda| \le 1\)</span></p>
+<p>证明：</p>
+<p>证明之前，先证明马科夫矩阵一个性质：如果<span class="math">\(A\)</span>是马科夫矩阵，那么<span class="math">\(A^n\)</span>仍然是马尔科夫矩阵。设一个函数——向量求和：<span class="math">\(vs(x) = \sum_{i=1}^nx_i\)</span>。在<span class="math">\(A^2\)</span>的过程中，对于任意<span class="math">\([A^2]_l\)</span>列向量，计算向量和，</p>
+<p><span class="math">\[
+  vs([A^2]_l) = vs(\sum_{i=1}^n a_ia_{li}) = \sum_{i=1}^n vs(a_ia_l{i})
+              = \sum_{i=1}^n \times  1 = 1 \times 1 = 1
+\]</span></p>
+<p><span class="math">\([A^2]_{ij} \ge 0\)</span>，因为每个元素都是由大于0的元素相乘并相加得到，不可能得到负数。所以<span class="math">\(A^2\)</span>是马尔科夫矩阵。同理，<span class="math">\(A^3=A^2A\)</span>也是马尔科夫矩阵，最后可以归纳到任意<span class="math">\(A^n\)</span>也是马尔科夫矩阵矩阵。</p>
+<p>根据特征值的幂和特征向量<span class="math">\(x\)</span>,可得<span class="math">\(u=A^nx=\lambda^nx\)</span>，假设存在<span class="math">\(|\lambda| &gt; 1\)</span>，那么<span class="math">\(u \rightarrow \infty\)</span>。但是<span class="math">\(A^n\)</span>是马尔科夫矩阵矩阵，所以<span class="math">\(A_{ij}\le 1\)</span>，所以<span class="math">\(A^nx\)</span>不可能无限大，与已知矛盾，所以假设不成立。</p>
+<p>证毕！</p>
+<p><strong>性质3</strong> <span class="math">\(A^nu_0\)</span>收敛</p>
+<p>假设马科夫矩阵<span class="math">\(A\)</span>有n个特征向量，且只有一个特征值为1的特征值<span class="math">\(v_1\)</span>（绝大数实际情况的马尔科夫矩阵这这样）,根据之前课程中的内容，将其展开，</p>
+<p><span class="math">\[
+  u_n= A^nx_0 = c_1 1^n x_1 + c_2 \lambda_2^n x_2 + \cdots + c_n \lambda_n^n x_n
+     \approx c_1x_1
+\]</span></p>
+<p>因为其他特征值据对值小于1，所以最后就收敛为<span class="math">\(c_1x_1\)</span>。</p>
+<p><strong>例2</strong> 人口迁移例子，两个城市人口迁移</p>
+<p><span class="math">\[
+  A=\begin{bmatrix} 0.9 &amp; 0.2 \\ 0.1 &amp; 0.8 \end{bmatrix}, u_0=\begin{bmatrix} 0 \\ 1000 \end{bmatrix}
+\]</span></p>
+<pre class="r"><code>A &lt;- matrix(c(.9,.2,.1,.8),byrow=T,nrow=2)
+u0 &lt;- matrix(c(0,1000))
+
+A_eig &lt;- eigen(A)
+print(A_eig)</code></pre>
+<pre><code>## $values
+## [1] 1.0 0.7
+## 
+## $vectors
+##           [,1]       [,2]
+## [1,] 0.8944272 -0.7071068
+## [2,] 0.4472136  0.7071068</code></pre>
+<pre class="r"><code>solve(A_eig$vectors, u0)[1,1]*A_eig$vectors[,1] # 收敛后的向量</code></pre>
+<pre><code>## [1] 666.6667 333.3333</code></pre>
+<pre class="r"><code># 迭代验证
+n &lt;- 50
+u &lt;- u0
+for(i in 1:n) {
+  u &lt;- A %*% u
+  if(i &lt;= 3 || i &gt;=n-3){
+    print(sprintf(&quot;i=%d&quot;,i))
+    print(u)
+  }
+}</code></pre>
+<pre><code>## [1] &quot;i=1&quot;
+##      [,1]
+## [1,]  200
+## [2,]  800
+## [1] &quot;i=2&quot;
+##      [,1]
+## [1,]  340
+## [2,]  660
+## [1] &quot;i=3&quot;
+##      [,1]
+## [1,]  438
+## [2,]  562
+## [1] &quot;i=47&quot;
+##          [,1]
+## [1,] 666.6666
+## [2,] 333.3334
+## [1] &quot;i=48&quot;
+##          [,1]
+## [1,] 666.6666
+## [2,] 333.3334
+## [1] &quot;i=49&quot;
+##          [,1]
+## [1,] 666.6666
+## [2,] 333.3334
+## [1] &quot;i=50&quot;
+##          [,1]
+## [1,] 666.6667
+## [2,] 333.3333</code></pre>
 </div>
 <div class="section level2">
-<h2>傅里叶级数</h2>
-<p>任意函数被<span class="math">\(\cos X,\sin x\)</span>等表示</p>
+<h2>马尔科夫矩阵参数估计</h2>
+<p>参考<a href="http://bourneli.github.io/linear-algebra/statistic/optimization/2016/04/22/linear-algebra-10-maximum-likelihood-estimate-for-discrete-time-markov-chain-marix.html">线代随笔10-极大似然计算马尔科夫矩阵</a></p>
 </div>
 
 

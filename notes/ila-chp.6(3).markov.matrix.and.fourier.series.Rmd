@@ -11,6 +11,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 马尔科夫矩阵性质
 
+**马尔科夫矩阵定义**
+
+
+* $a_{ij} \ge 0$
+* $\sum_{j=1}^{n}{a_{*j}} = 1$，（也可以是行，关键看A左乘还是右乘）
+
+**例**
 $$
   A = \begin{bmatrix}
     0.1 & 0.01 & 0.3 \\
@@ -20,32 +27,85 @@ $$
 $$
 
 
+**性质1** $\lambda = 1$是特征值（可以先用上面的A试试）
 
-* $a_{ij} \ge 0$
-* $\sum_{j=1}^{n}{a_{*j}} = 1$，也可以是行，关键看A左乘还是右乘
-* 方正
-* 可逆（待确认）
+证明：
 
-性质
-
-1. $\lambda = 1$是特征值（可以先用上面的A试试）
-2. 其他特征值$|\lambda| < 1$ 
-
-根据$u_k=A^ku_0=\sum_{i=1}^n{x_i\lambda_i^kc_i}$可以得到最后稳态$c_1x_1$。
-
-$\lambda=1$特征向量$x=\begin{bmatrix} 0.6 \\ 33 \\ 0.7 \end{bmatrix}$
-
-
-## 人口迁移例子，一线城市与非一线城市
+设向量$1_n=\begin{bmatrix} 1 \\ \vdots \\ 1 \end{bmatrix}$
 
 $$
-  A=\begin{bmatrix} 0.9 & 0.2 \\ 0.1 & 0.8 \end{bmatrix}, u=\begin{bmatrix} 0 \\ 1000 \end{bmatrix}
+  1_n^TA = 1_n^T \Rightarrow A^T1_n=1_n
 $$
 
-参考教材上的反例，主流是不会奇异，且只有一个特征值为1，其他全部绝对值小于1
+根据定义，上面必然成立！所以1是$A^T$特征值，根据特征值定义$A$与$A^T$特征值相同，所以1必然是$A$特征值。
 
 
-## 马尔科夫矩阵推导
+证毕！
+
+
+**性质2** 特征值$|\lambda| \le 1$ 
+
+证明：
+
+证明之前，先证明马科夫矩阵一个性质：如果$A$是马科夫矩阵，那么$A^n$仍然是马尔科夫矩阵。设一个函数——向量求和：$vs(x) = \sum_{i=1}^nx_i$。在$A^2$的过程中，对于任意$[A^2]_l$列向量，计算向量和，
+
+$$
+  vs([A^2]_l) = vs(\sum_{i=1}^n a_ia_{li}) = \sum_{i=1}^n vs(a_ia_l{i})
+              = \sum_{i=1}^n \times  1 = 1 \times 1 = 1
+$$
+
+$[A^2]_{ij} \ge 0$，因为每个元素都是由大于0的元素相乘并相加得到，不可能得到负数。所以$A^2$是马尔科夫矩阵。同理，$A^3=A^2A$也是马尔科夫矩阵，最后可以归纳到任意$A^n$也是马尔科夫矩阵矩阵。
+
+
+根据特征值的幂和特征向量$x$,可得$u=A^nx=\lambda^nx$，假设存在$|\lambda| > 1$，那么$u \rightarrow \infty$。但是$A^n$是马尔科夫矩阵矩阵，所以$A_{ij}\le 1$，所以$A^nx$不可能无限大，与已知矛盾，所以假设不成立。
+
+证毕！
+
+
+**性质3** $A^nu_0$收敛
+
+假设马科夫矩阵$A$有n个特征向量，且只有一个特征值为1的特征值$v_1$（绝大数实际情况的马尔科夫矩阵这这样）,根据之前课程中的内容，将其展开，
+
+$$
+  u_n= A^nx_0 = c_1 1^n x_1 + c_2 \lambda_2^n x_2 + \cdots + c_n \lambda_n^n x_n
+     \approx c_1x_1
+$$
+
+因为其他特征值据对值小于1，所以最后就收敛为$c_1x_1$。
+
+ 
+
+
+**例2** 人口迁移例子，两个城市人口迁移
+
+$$
+  A=\begin{bmatrix} 0.9 & 0.2 \\ 0.1 & 0.8 \end{bmatrix}, u_0=\begin{bmatrix} 0 \\ 1000 \end{bmatrix}
+$$
+
+```{r markov_sample,cache=T}
+A <- matrix(c(.9,.2,.1,.8),byrow=T,nrow=2)
+u0 <- matrix(c(0,1000))
+
+A_eig <- eigen(A)
+print(A_eig)
+
+solve(A_eig$vectors, u0)[1,1]*A_eig$vectors[,1] # 收敛后的向量
+
+# 迭代验证
+n <- 50
+u <- u0
+for(i in 1:n) {
+  u <- A %*% u
+  if(i <= 3 || i >=n-3){
+    print(sprintf("i=%d",i))
+    print(u)
+  }
+}
+
+```
+
+ 
+## 马尔科夫矩阵参数估计
 
 参考[线代随笔10-极大似然计算马尔科夫矩阵](http://bourneli.github.io/linear-algebra/statistic/optimization/2016/04/22/linear-algebra-10-maximum-likelihood-estimate-for-discrete-time-markov-chain-marix.html)
 
