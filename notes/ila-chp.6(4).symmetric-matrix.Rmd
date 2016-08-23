@@ -1,0 +1,141 @@
+---
+title: "Introduction to Linear Algebra -- 第六章(4)：对称矩阵"
+author: "bourneli"
+date: "2016年8月"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+ 
+## 要点
+
+* 共轭特征值，需要简要证明共轭的相关性质
+* 实对称矩阵特征值全是实数，可推广到复数艾米特矩阵。
+* 实对称矩阵特行向量正交。
+* 所有对称矩阵可以对角化。参考本科线性代数教程。
+* 阀值符号数与特征值符号数相同。
+
+## 共轭复数相关性质
+
+**定义：共轭复数**  $\lambda= a + i b$与$\bar{\lambda}= a - i b$互为共轭复数。
+
+**性质1：复数共轭乘法** $\bar{ab}=\bar{a}\bar{b}$。
+
+证明：
+
+令$a=a_1+ia_2,b=b_1 + ib_2$
+
+可得$ab = a_1b_1-a_2b_2 +i(a_2b_1+a_1b_2)$
+
+取共轭复数，$\bar{ab} = a_1b_1-a_2b_2 -i(a_2b_1+a_1b_2)$
+
+同理，有$\bar{a}\bar{b}=(a_1-ia_2)(b_1-ib_2)=a_1b_1-a_2b_2-i(a_2b_1+a_1b_2)$.
+
+所以$\bar{ab}=\bar{a}\bar{b}$
+
+证毕！
+
+**性质2：向量共轭乘法** $\bar{ax} = \bar{a}\bar{x}$,利用性质1，逐个元素证明，这里省略。
+
+**性质3：矩阵共轭乘法** $\bar{Ax}=\bar{A}\bar{x}$，利用性质2，逐个向量证明，这里省略。
+
+**性质4：实数共轭相等** $\lambda \in R \Leftrightarrow \bar{\lambda} = \lambda$
+
+
+## 特殊矩阵的特征值
+
+特征值非常容易产生复数，因为本质上特征值是求解解一个一元多项式的根。但是，有一类矩阵的特征值全是实数，还有一类矩阵的特征值全是虚数，大多数矩阵是介于这两类之间，也就是特征值由复数组成。在实数矩阵中，如果特征值出现复数，那么一定是共轭复数对，由性质3可以轻易证明。
+
+**性质5：实对称矩阵特征值全为实数** 
+
+证明：
+
+对任意特征向量$x$与特征值$\lambda$，$Ax=\lambda x$。
+
+根据性质2，有
+
+$$
+  \bar{Ax}=\bar{A}\bar{x}=\bar{\lambda x} \Rightarrow A\bar{x}=\bar{\lambda}\bar{x} \quad (1)
+$$
+
+将(1)转置，然后右乘$x$得
+
+$$
+  (A\bar{x})^Tx=\bar{\lambda}\bar{x}^Tx \Rightarrow
+  \bar{x}^TA^Tx=\bar{x}^TAx=\bar{x}^T\lambda x =\bar{\lambda}\bar{x}^Tx \quad (2)
+$$
+
+将(2)化简得
+
+$$
+  (\lambda-\bar{\lambda})\bar{x}^Tx = 0
+$$
+
+由特征向量性质$x \ne 0$，所以$\bar{x}^Tx \ne 0$，所以$\lambda=\bar{\lambda}$。
+
+证毕！
+
+**性质6：埃尔米特矩阵的特征值全为实数**
+
+埃尔米特矩阵定义
+
+$$
+  A^H=\bar{A}^T=A
+$$
+
+实对称矩阵是埃尔米特矩阵的特例，埃尔米特矩阵是实对称矩阵在复数域的推广。
+
+证明：
+
+
+对任意特征向量$x$与特征值$\lambda$，$Ax=\lambda x$。
+
+根据性质2，有
+
+$$
+  \bar{Ax}=\bar{A}\bar{x}=\bar{\lambda}\bar{x} \quad (1)
+$$
+
+将(1)转置，然后右乘$x$得
+
+$$
+  (\bar{A}\bar{x})^Tx=\bar{\lambda}\bar{x}^Tx \Rightarrow
+  \bar{x}^T\bar{A}^Tx=\bar{x}^TA^Hx =\bar{x}^TAx =\bar{x}^T\lambda x =\bar{\lambda}\bar{x}^Tx \quad (2)
+$$
+
+将(2)化简得
+
+$$
+  (\lambda-\bar{\lambda})\bar{x}^Tx = 0
+$$
+
+由特征向量性质$x \ne 0$，所以$\bar{x}^Tx \ne 0$，所以$\lambda=\bar{\lambda}$。
+
+
+证毕！
+
+
+**性质7：反埃尔米特矩阵的特征值全为虚数**
+
+反埃尔米特矩阵是反对称矩阵在复数域上的推广，定义
+
+$$
+  A^H=-A
+$$
+
+证明：
+
+方法大致相同，关键步骤如下
+
+$$
+  -\bar{x}^TA^Hx=-\bar{\lambda}\bar{x}^Tx
+  \Rightarrow \bar{x}^TAx=-\bar{\lambda}\bar{x}^Tx
+  \Rightarrow \bar{x}^T{\lambda}x=-\bar{\lambda}\bar{x}^Tx
+$$
+
+得到$\lambda+\bar{\lambda}=0$，所以$\lambda$为纯虚数。
+
+证毕！
+
