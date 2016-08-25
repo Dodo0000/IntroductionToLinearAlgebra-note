@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Linear Algebra -- 第六章(4)：对称矩阵"
+title: "Introduction to Linear Algebra -- 第六章(4)：复数与对称矩阵"
 author: "bourneli"
 date: "2016年8月"
 output: html_document
@@ -12,14 +12,15 @@ knitr::opts_chunk$set(echo = TRUE)
 ## 要点
 
 * 共轭特征值，需要简要证明共轭的相关性质
-* 实对称矩阵特征值全是实数，可推广到复数艾米特矩阵。
+* 实对称矩阵特征值全是实数，可推广到复数埃尔米特矩阵。
 * 实对称矩阵特行向量正交。
 * 所有对称矩阵可以对角化。参考本科线性代数教程。
 * 阀值符号数与特征值符号数相同。
 
 ## 共轭复数相关性质
 
-**定义：共轭复数**  $\lambda= a + i b$与$\bar{\lambda}= a - i b$互为共轭复数。
+**定义1：共轭复数**  $\lambda= a + i b$与$\bar{\lambda}= a - i b$互为共轭复数。
+
 
 **性质1：复数共轭乘法** $\bar{ab}=\bar{a}\bar{b}$。
 
@@ -138,4 +139,62 @@ $$
 得到$\lambda+\bar{\lambda}=0$，所以$\lambda$为纯虚数。
 
 证毕！
+
+**定义2：复向量内积** 若$x,y \in C^n$,那么$x \bullet y = \bar{x}^Ty=x^Hy$，这样定义可以保证$x \bullet x \ge 0$，同时兼容实数域向量点积。
+
+**性质8：实对称矩阵特征向量正交**
+
+证明：
+
+设$x,y$是实对称矩阵A的两个特征向量,特征向量分别为$\lambda,\beta$且$\lambda \ne \beta$，有
+
+$$
+  \lambda x \bullet y=Ax \bullet y = (Ax)^Ty=x^TA^Ty=x^TAy=x^T\beta y
+$$
+
+即
+
+$$
+  (\lambda-\beta)x^Ty=0
+$$
+
+因为$\lambda \ne \beta$,所以$x^Ty=0$。
+
+（对称矩阵，多重根的特征向量为什么正交？）
+
+证毕！
+
+**定义3：埃尔米特矩阵**
+
+**性质9：埃尔米特矩阵特征向量正交**
+
+[实对称矩阵特行向量互相垂直](http://math.stackexchange.com/a/82471/261790)
+
+```{r eigen_vectors_orthogonal}
+
+# 埃尔米特矩阵
+a <- complex(real=1, imaginary = 1)
+A <- matrix(c(0, a, Conj(a), 0),nrow=2,byrow=T)
+A
+X <- eigen(A)$vectors
+round(t(Conj(X[,1])) %*% X[,2],2)
+
+# 反埃尔米特矩阵
+A <- matrix(c(0, complex(real = 1, imaginary=1), 
+              complex(real = -1, imaginary=1), 0),nrow=2,byrow=T)
+A
+A == -t(Conj(A))
+X <- eigen(A)$vectors
+round(t(Conj(X[,1])) %*% X[,2],2)
+
+# 对称矩阵
+A <- matrix(c(0, a, a, 0),nrow=2,byrow=T)
+A
+X <- eigen(A)$vectors
+round(t(X[,1]) %*% X[,2],2)
+```
+
+
+需要证明对称矩阵可以对角化，看是否可以扩展到埃尔米特矩阵。
+然后结合埃尔米特矩阵特征向量正交，得到完备的埃尔米特矩阵特征值和特征向量的内容。
 
