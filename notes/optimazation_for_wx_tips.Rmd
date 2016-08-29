@@ -1,0 +1,107 @@
+---
+title: "微信投放策略优化"
+author: "bourneli"
+date: "2016年8月26日"
+output: html_document
+---
+
+## 问题描述
+
+**变量定义**
+
+* m是游戏个数，n是账号个数。
+* $x_i \in R^m, i = 1,2,\cdots,n$。表示每个账号对不同游戏的p值，已知。
+* $g_i \in R^m, g_{ij} \in \{0,1\}, i = 1,2,\cdots,n$。不同游戏对每个用户的投放策略。
+* 投放矩阵$G = \begin{bmatrix}g_1 &  \cdots & g_n \end{bmatrix}$。
+
+**目标函数**
+
+$$
+L(G) = \sum_{i=1}^n{x_i^Tg_i}
+$$
+
+
+**约束**
+
+* 每个游戏有一个投放上限$b_i, i= 1, \cdots, m$，即$[G1_n]_i \le b_i$
+* 每个人只能投放一个游戏,即$1_m^T g_i \le 1$
+
+**最终问题**
+
+$$
+  \begin{equation*}
+    \begin{aligned}
+    & \max_{G} 
+    & & \sum_{i=1}^n{x_i^Tg_i} \\
+    & \text{s.t.}
+    & & [G1_n]_i \le b_i \; i = 1,\cdots,m  \\
+    &&& 1_m^T g_i \le 1 \; i  = 1,\cdots,n
+    \end{aligned}
+  \end{equation*}
+$$
+
+
+## 优化解析
+
+使用拉格朗日乘子法，
+
+$$
+  l(G) = \sum_{i=1}^n{x_i^Tg_i} - \alpha^T(G1_n-B) - \beta^T(G^T1_m-1_n)
+$$
+
+相关变量定义如下
+
+* $\alpha = \begin{bmatrix}\alpha_1 & \cdots & \alpha_m\end{bmatrix}^T$
+* $B = \begin{bmatrix}b_1 \\ \cdots \\ b_m\end{bmatrix}$，已知
+* $\beta = \begin{bmatrix}\beta_1 & \cdots & \beta_n \end{bmatrix}^T$
+* $1_m,1_n$是元素全为1的向量，下标表示维度
+
+**求偏导**
+
+
+$$
+  \begin{aligned}
+    & \frac{dl}{dg_{ij}} = x_{ij} - \alpha_i - \beta_j = 0 \qquad i \in {1, \cdots,m}, j \in {1 ,\cdots, n} \qquad (1) \\
+    & [G1_n-B]_i = \left(\sum_{k=1}^n{g_{ki}}\right) - b_i = 0 \qquad i \in {1, \cdots,m} \qquad (2)\\
+    & [G^T1_m-1_n]_i = \left(\sum_{k=1}^m{g_{ik}}\right) - 1 = 0 \qquad i \in {1,\cdots,n} \qquad (3)\\
+  \end{aligned}
+$$
+
+
+上面的(1),(2),(3)类等式中，有变量$(m+n+mn)$个,有方程$(m+n+mn)$个,且都是线性方程，所以最终转成了一个求解大型稀疏线性方程组的问题。矩阵稀疏度为$\frac{4mn}{(m+n+mn)^2}$，若$m=100,n=1亿$,稀疏度为`r 4*100*1e8/(100+1e8+100*1e8)^2`。最后，计算出来的是$g_{ij}$是soft的分数 ，最后还需要根据一定策略判断为0或1。
+
+
+
+
+
+P.S.: 另外上面的最优化方法，不一定要用拉格朗日乘子法的，线性规划问题一般都带约束，可以用单纯性法之类的数值方法来求解，如果变量有整数约束，可以用整数规划方法，0-1规划之类的，可以往这个方向考虑一下
+
+
+## 转为线性规划问题
+
+定义变量，默认沿用之前的变量
+
+* $C=\begin{bmatrix}g_1 \\ \vdots \\ g_n \end{bmatrix}$
+* $X=\begin{bmatrix}x_1^T & \cdots & x_n^T \end{bmatrix}$
+
+问题定义如下
+
+
+$$
+  \begin{equation*}
+    \begin{aligned}
+    & \max_{C}
+    & & XC \\
+    & \text{s.t.}
+    & & G1_n \le B \\
+    &&& G^T1_m \le 1_n \\
+    &&& g_{ij} \in \{0,1\}
+    \end{aligned}
+  \end{equation*}
+$$
+
+
+感觉可以使用梯度递减。
+0-1数值规划
+
+
