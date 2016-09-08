@@ -149,7 +149,7 @@ $(document).ready(function () {
 </div>
 <div class="section level2">
 <h2>特殊矩阵的特征值</h2>
-<p>特征值非常容易产生复数，因为本质上特征值是求解解一个一元多项式的根。但是，有一类矩阵的特征值全是实数，还有一类矩阵的特征值全是虚数，大多数矩阵是介于这两类之间，也就是特征值由复数组成。在实数矩阵中，如果特征值出现复数，那么一定是共轭复数对，由性质3可以轻易证明。</p>
+<p>特征值非常容易产生复数，因为本质上特征值是求解解一个一元多项式的根。但是，有一类矩阵的特征值全是实数，还有一类矩阵的特征值全是虚数，大多数矩阵是介于这两类之间，也就是特征值由复数组成。在实数矩阵中，如果特征值出现复数，那么一定是共轭复数对，由<strong>性质3</strong>可以轻易证明(<span class="math">\(Ax=\lambda x \Rightarrow \bar{Ax}=\bar{\lambda x} \Rightarrow \bar{A}\bar{x}=A\bar{x}=\bar{\lambda}\bar{x}\)</span>)。</p>
 <p><strong>性质5：实对称矩阵特征值全为实数</strong></p>
 <p>证明：</p>
 <p>对任意特征向量<span class="math">\(x\)</span>与特征值<span class="math">\(\lambda\)</span>，<span class="math">\(Ax=\lambda x\)</span>。</p>
@@ -166,12 +166,15 @@ $(document).ready(function () {
 <p><span class="math">\[
   (\lambda-\bar{\lambda})\bar{x}^Tx = 0
 \]</span></p>
-<p>由特征向量性质<span class="math">\(x \ne 0\)</span>，所以<span class="math">\(\bar{x}^Tx \ne 0\)</span>，所以<span class="math">\(\lambda=\bar{\lambda}\)</span>。</p>
+<p>由特征向量性质<span class="math">\(x \ne 0\)</span>，令<span class="math">\(x_j=a_j+ib_j\)</span>，所以<span class="math">\(\bar{x}^Tx = \sum_{j=1}^{n}(a_j^2+b_j^2) &gt; 0\)</span>，所以<span class="math">\(\lambda=\bar{\lambda}\)</span>，根据<strong>性质4</strong>，特征值为实数。</p>
 <p>证毕！</p>
+<p>接下来，将实对称矩阵推广<strong>复数</strong>范围，此时的“对称”矩阵称之为“埃尔米特矩阵”。</p>
 <p><strong>定义2：埃尔米特矩阵</strong></p>
 <p><span class="math">\[
-  A^H=\bar{A}^T=A
+  A^H=\bar{A}^T=\bar{A^T}=A
 \]</span></p>
+<p>其实在复数范围，除了对称，添加了共轭操作。</p>
+<p><strong>定义3：复向量内积</strong> 若<span class="math">\(x,y \in C^n\)</span>,那么<span class="math">\(x \bullet y = \bar{x}^Ty=x^Hy\)</span>，这样定义可以保证<span class="math">\(x \bullet x \ge 0\)</span>，同时兼容实数域向量点积。</p>
 <p><strong>性质6：埃尔米特矩阵的特征值全为实数</strong></p>
 <p>实对称矩阵是埃尔米特矩阵的特例，埃尔米特矩阵是实对称矩阵在复数域的推广。</p>
 <p>证明：</p>
@@ -182,17 +185,19 @@ $(document).ready(function () {
 \]</span></p>
 <p>将(1)转置，然后右乘<span class="math">\(x\)</span>得</p>
 <p><span class="math">\[
-  (\bar{A}\bar{x})^Tx=\bar{\lambda}\bar{x}^Tx \Rightarrow
-  \bar{x}^T\bar{A}^Tx=\bar{x}^TA^Hx =\bar{x}^TAx =\bar{x}^T\lambda x =\bar{\lambda}\bar{x}^Tx \quad (2)
+  (\bar{A}\bar{x})^Tx=(\bar{\lambda}\bar{x})^Tx \Rightarrow
+  x^H A^H x = x^H Ax = x^H \lambda x = \bar{\lambda} x^H x \quad (2)
 \]</span></p>
 <p>将(2)化简得</p>
 <p><span class="math">\[
-  (\lambda-\bar{\lambda})\bar{x}^Tx = 0
+  (\lambda-\bar{\lambda})x^Hx = 0
 \]</span></p>
-<p>由特征向量性质<span class="math">\(x \ne 0\)</span>，所以<span class="math">\(\bar{x}^Tx \ne 0\)</span>，所以<span class="math">\(\lambda=\bar{\lambda}\)</span>。</p>
+<p>由特征向量性质<span class="math">\(x \ne 0\)</span>，所以<span class="math">\(x^Hx &gt; 0\)</span>，所以<span class="math">\(\lambda=\bar{\lambda}\)</span>。</p>
 <p>证毕！</p>
-<p>(性质5,6可以合并)</p>
-<p><strong>定义3：反埃尔米特矩阵</strong></p>
+<p>上面的证明可以直接套用到实对称矩阵的证明。</p>
+<p>除了埃尔米特矩阵，还有一种称为反埃尔米特矩阵，对应的实数版本是反对称矩阵，他的特征值有着与埃尔米特矩阵截然不同的性质。</p>
+<p>（修改到这里了…）</p>
+<p><strong>定义4：反埃尔米特矩阵</strong></p>
 <p>反埃尔米特矩阵是反对称矩阵在复数域上的推广，定义</p>
 <p><span class="math">\[
   A^H=-A
@@ -207,7 +212,6 @@ $(document).ready(function () {
 \]</span></p>
 <p>得到<span class="math">\(\lambda+\bar{\lambda}=0\)</span>，所以<span class="math">\(\lambda\)</span>为纯虚数。</p>
 <p>证毕！</p>
-<p><strong>定义4：复向量内积</strong> 若<span class="math">\(x,y \in C^n\)</span>,那么<span class="math">\(x \bullet y = \bar{x}^Ty=x^Hy\)</span>，这样定义可以保证<span class="math">\(x \bullet x \ge 0\)</span>，同时兼容实数域向量点积。</p>
 <p><strong>性质8：实对称矩阵特征向量正交</strong></p>
 <p>证明：</p>
 <p>设<span class="math">\(x,y\)</span>是实对称矩阵A的两个特征向量,特征向量分别为<span class="math">\(\lambda,\beta\)</span>，分为两种情况考虑</p>
@@ -221,7 +225,7 @@ $(document).ready(function () {
 \]</span></p>
 <p>因为<span class="math">\(\lambda \ne \beta\)</span>,所以<span class="math">\(x^Ty=0\)</span>。</p>
 <p><strong>当<span class="math">\(\lambda = \beta\)</span>时</strong></p>
-<p>将其扩展到更为一般形式，即<strong>多重特征值</strong>，无论A是否对称，他们的特征向量不一定<strong>需要正交</strong>，但是我们可以通过Gram-Schmidt方法将其特征值正交化，使得矩阵最终可以被标准正交矩阵对角化。假设<span class="math">\(\lambda\)</span>的特征值为<span class="math">\(x_1,\cdots,x_m\)</span>，且经过Gram-Schmidt方法后，得到对应正交向量<span class="math">\(q_1,\cdots,q_m\)</span>，那么对任意正交化特征向量，有<span class="math">\(q_i=\sum_{i=1}^ma_ix_i, a_i \in R\)</span>（基与线性空间的性质）。根据特征向量定义,</p>
+<p>将其扩展到更为一般形式，即<strong>多重特征值</strong>，无论A是否对称，他们的特征向量不一定<strong>需要正交</strong>，但是我们可以通过Gram-Schmidt方法将其特征值正交化，使得矩阵最终可以被标准正交矩阵对角化。假设<span class="math">\(\lambda\)</span>的特征向量为<span class="math">\(x_1,\cdots,x_m\)</span>，且经过Gram-Schmidt方法后，得到对应正交向量<span class="math">\(q_1,\cdots,q_m\)</span>，那么对任意正交化特征向量，有<span class="math">\(q_i=\sum_{i=1}^ma_ix_i, a_i \in R\)</span>（基与线性空间的性质）。根据特征向量定义,</p>
 <p><span class="math">\[
   Aq_i = A\sum_{i=1}^ma_ix_i = \sum_{i=1}^ma_iAx_i 
        = \sum_{i=1}^ma_i\lambda x_i =\lambda \sum_{i=1}^ma_ix_i  
@@ -230,46 +234,51 @@ $(document).ready(function () {
 <p>所以<span class="math">\(q_i\)</span>是A特征向量。</p>
 <p>证毕！</p>
 <p><strong>性质9：埃尔米特矩阵特征向量正交</strong></p>
-<p>性质8,9可以合并</p>
-<p><strong>性质10：埃尔米特矩阵必可对角化</strong></p>
-<p><a href="http://math.stackexchange.com/a/82471/261790">实对称矩阵特行向量互相垂直</a></p>
-<pre class="r"><code># 埃尔米特矩阵
-a &lt;- complex(real=1, imaginary = 1)
-A &lt;- matrix(c(0, a, Conj(a), 0),nrow=2,byrow=T)
-A</code></pre>
-<pre><code>##      [,1] [,2]
-## [1,] 0+0i 1+1i
-## [2,] 1-1i 0+0i</code></pre>
-<pre class="r"><code>X &lt;- eigen(A)$vectors
-round(t(Conj(X[,1])) %*% X[,2],2)</code></pre>
-<pre><code>##      [,1]
-## [1,] 0+0i</code></pre>
-<pre class="r"><code># 反埃尔米特矩阵
-A &lt;- matrix(c(0, complex(real = 1, imaginary=1), 
-              complex(real = -1, imaginary=1), 0),nrow=2,byrow=T)
-A</code></pre>
-<pre><code>##       [,1] [,2]
-## [1,]  0+0i 1+1i
-## [2,] -1+1i 0+0i</code></pre>
-<pre class="r"><code>A == -t(Conj(A))</code></pre>
-<pre><code>##      [,1] [,2]
-## [1,] TRUE TRUE
-## [2,] TRUE TRUE</code></pre>
-<pre class="r"><code>X &lt;- eigen(A)$vectors
-round(t(Conj(X[,1])) %*% X[,2],2)</code></pre>
-<pre><code>##      [,1]
-## [1,] 0+0i</code></pre>
-<pre class="r"><code># 对称矩阵
-A &lt;- matrix(c(0, a, a, 0),nrow=2,byrow=T)
-A</code></pre>
-<pre><code>##      [,1] [,2]
-## [1,] 0+0i 1+1i
-## [2,] 1+1i 0+0i</code></pre>
-<pre class="r"><code>X &lt;- eigen(A)$vectors
-round(t(X[,1]) %*% X[,2],2)</code></pre>
-<pre><code>##      [,1]
-## [1,] 0+0i</code></pre>
-<p>需要证明对称矩阵可以对角化，看是否可以扩展到埃尔米特矩阵。 然后结合埃尔米特矩阵特征向量正交，得到完备的埃尔米特矩阵特征值和特征向量的内容。</p>
+<p>证明：</p>
+<p>证明方法类似性质8，</p>
+<p><span class="math">\[
+  Ax\bullet y = (Ax)^Hy =x^HA^Hy= x^HAy=\beta x^Hy \\
+  Ax\bullet y = (\lambda x)^Hy = \bar{\lambda} x^Hy \\
+  \Rightarrow (\beta-\bar{\lambda})x^Hy = 0
+\]</span></p>
+<p>需要根据<span class="math">\(\beta与\bar{\lambda}\)</span>的关系，分别证明。</p>
+<p>当<span class="math">\(\beta \ne \bar{\lambda}\)</span>时，<span class="math">\(x\)</span>与<span class="math">\(y\)</span>正交易得。</p>
+<p>当<span class="math">\(\beta = \bar{\lambda}\)</span>,由于埃尔米特矩阵，特征值全部为实数，所以此时为多重特征值。证明方法类似<strong>性质9</strong>,使用Gram-Schmidt方法扩展为正交基，这里省略。</p>
+<p>证毕！</p>
+<p><strong>性质11：实对称矩阵必可对角化</strong></p>
+<p>证明：</p>
+<p>使用数学归纳法证明。当维度为1时，必成立。假设实对称矩阵<span class="math">\(B_{(n-1) \times (n-1)}\)</span>矩阵必可以对角化。对于矩阵<span class="math">\(A_{n \times n}\)</span>，假设一个特征值为<span class="math">\(\lambda_1\)</span>，其特征向量为<span class="math">\(x_1\)</span>，使用Gram-Schmidt方法，扩展<span class="math">\(x_1\)</span>，得到<span class="math">\(R^n\)</span>下的一组标准正交基,<span class="math">\(X = \begin{bmatrix}x_1 &amp; x_2 &amp; \cdots &amp; x_n \end{bmatrix}\)</span>，那么可以构建出如下的矩阵</p>
+<p><span class="math">\[
+  A\begin{bmatrix}x_1 &amp; x_2 &amp; \cdots &amp; x_n\end{bmatrix}
+  = \begin{bmatrix}x_1 &amp; x_2 &amp; \cdots &amp; x_n\end{bmatrix} 
+    \begin{bmatrix}
+      \lambda_1 &amp; b_{12} &amp; \cdots &amp; b_{1n} \\
+      0         &amp; b_{22} &amp; \cdots &amp; b_{2n} \\
+      \vdots    &amp; \vdots &amp; \ddots &amp; \vdots \\
+      0         &amp; b_{n2} &amp; \cdots &amp; b_{nn}
+    \end{bmatrix}
+  = X
+    \begin{bmatrix}\lambda_1  &amp; b^T \\ 
+                    0 &amp; B_{(n-1) \times (n-1)}
+     \end{bmatrix} \\
+  \Rightarrow 
+  X^TAX = \begin{bmatrix}\lambda_1  &amp; b^T \\ 
+                    0 &amp; B_{(n-1) \times (n-1)}
+     \end{bmatrix} \qquad (1)
+\]</span></p>
+<p>对(1)转置，</p>
+<p><span class="math">\[
+  X^TA^TX = X^TAX = \begin{bmatrix}\lambda_1  &amp; 0 \\ 
+                    b &amp; B^T_{(n-1) \times (n-1)}
+     \end{bmatrix} \qquad (1)
+\]</span></p>
+<p>证毕！</p>
+<p><strong>性质12：埃尔米特矩阵可对角化</strong></p>
+<p>证明：</p>
+<p>证毕！</p>
+<p><strong>性质13：反埃尔米特矩阵可对角化</strong></p>
+<p>证明：</p>
+<p>证毕！</p>
 </div>
 
 
