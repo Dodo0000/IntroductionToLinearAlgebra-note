@@ -8,14 +8,6 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
- 
-## 要点
-
-* 共轭特征值，需要简要证明共轭的相关性质
-* 实对称矩阵特征值全是实数，可推广到复数埃尔米特矩阵。
-* 实对称矩阵特行向量正交。
-* 所有对称矩阵可以对角化。参考本科线性代数教程。
-* 阀值符号数与特征值符号数相同。
 
 ## 共轭复数相关性质
 
@@ -47,9 +39,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 特殊矩阵的特征值
 
-特征值非常容易产生复数，因为本质上特征值是求解解一个一元多项式的根。但是，有一类矩阵的特征值全是实数，还有一类矩阵的特征值全是虚数，大多数矩阵是介于这两类之间，也就是特征值由复数组成。在实数矩阵中，如果特征值出现复数，那么一定是共轭复数对，由**性质3**可以轻易证明($Ax=\lambda x \Rightarrow \bar{Ax}=\bar{\lambda x} \Rightarrow \bar{A}\bar{x}=A\bar{x}=\bar{\lambda}\bar{x}$)。
+特征值非常容易产生复数，因为本质上特征值是求解一个一元多项式的根。但是，有一类矩阵的特征值全是实数，还有一类矩阵的特征值全是虚数，大多数矩阵是介于这两类之间，也就是特征值由复数组成。在实数矩阵中，如果特征值出现复数，那么一定是共轭复数对，由**性质3**可以轻易证明($Ax=\lambda x \Rightarrow \bar{Ax}=\bar{\lambda x} \Rightarrow \bar{A}\bar{x}=A\bar{x}=\bar{\lambda}\bar{x}$)。
 
 **性质5：实对称矩阵特征值全为实数** 
+
+*补一个例子*
 
 证明：
 
@@ -130,8 +124,6 @@ $$
 
 除了埃尔米特矩阵，还有一种称为反埃尔米特矩阵，对应的实数版本是反对称矩阵，他的特征值有着与埃尔米特矩阵截然不同的性质。
 
-（修改到这里了...）
-
 **定义4：反埃尔米特矩阵**
 
 反埃尔米特矩阵是反对称矩阵在复数域上的推广，定义
@@ -142,6 +134,8 @@ $$
 
 
 **性质7：反埃尔米特矩阵的特征值全为虚数**
+
+*补个例子*
 
 证明：
 
@@ -213,13 +207,13 @@ $$
 
 当$\beta \ne \bar{\lambda}$时，$x$与$y$正交易得。
 
-当$\beta = \bar{\lambda}$,由于埃尔米特矩阵，特征值全部为实数，所以此时为多重特征值。证明方法类似**性质9**,使用Gram-Schmidt方法扩展为正交基，这里省略。
+当$\beta = \bar{\lambda}$,由于埃尔米特矩阵，特征值全部为实数，所以此时为多重特征值。证明方法类似**性质8**,使用Gram-Schmidt方法扩展为正交基，这里省略。
 
 
 证毕！
 
 
-**性质11：实对称矩阵必可对角化**
+**性质10：实对称矩阵必可对角化**
 
 证明：
 
@@ -249,20 +243,123 @@ $$
 $$
   X^TA^TX = X^TAX = \begin{bmatrix}\lambda_1  & 0 \\ 
                     b & B^T_{(n-1) \times (n-1)}
-     \end{bmatrix} \qquad (1)
+     \end{bmatrix} \qquad (2)
 $$
 
+(1)与(2)等价，所以$\vec{b}=\vec{0}$，并且$B_{(n-1) \times (n-1)}= B^T_{(n-1) \times (n-1)}$,即B是对称矩阵.根据假设，B可对角化,$B=S^T_B {\Lambda}_B S_B$,代入(2)。  
+
+$$
+  X^TAX = \begin{bmatrix}
+            \lambda_1  & 0 \\ 
+            0 & S^T_B {\Lambda}_B S_B
+          \end{bmatrix} 
+        = \begin{bmatrix}
+            \lambda_1  & 0 \\ 0 & S^T_B
+          \end{bmatrix}
+          \begin{bmatrix}
+            \lambda_1  & 0 \\ 
+            0 & S^T_B {\Lambda}_B S_B
+          \end{bmatrix}
+          \begin{bmatrix}
+            \lambda_1 & 0 \\ 0 & S_B
+          \end{bmatrix}
+          \qquad (4)
+$$
+
+将(4)左边的X代入到右边，
+
+$$
+  A = X
+      \begin{bmatrix}
+            \lambda_1  & 0 \\ 0 & S^T_B
+      \end{bmatrix}
+      \begin{bmatrix}
+        \lambda_1  & 0 \\ 
+        0 & S^T_B {\Lambda}_B S_B
+      \end{bmatrix}
+      \begin{bmatrix}
+        \lambda_1 & 0 \\ 0 & S_B
+      \end{bmatrix}
+      X^T  \qquad(5)
+$$
+
+令$S_A=\begin{bmatrix}
+        \lambda_1 & 0 \\ 0 & S_B
+      \end{bmatrix}X^T$，
+$\Lambda_A = \begin{bmatrix}
+        \lambda_1  & 0 \\ 
+        0 & S^T_B {\Lambda}_B S_B
+      \end{bmatrix}$
+很容易得到$S_A$也是正交矩阵,$\Lambda_A$是对称矩阵。代入(5),得到$A=S_A^T\Lambda_AS_A$。
+      
+
+
+
 证毕！
 
+**定义5 酉矩阵**
 
-**性质12：埃尔米特矩阵可对角化** 
+标准正交矩阵在复数空间上的推广，用U表示，
+
+$$
+  U^HU=I，即U^{-1}=U
+$$
+
+**性质11：埃尔米特矩阵可对角化** 
+
 
 证明：
 
+Gram-Schmidt方法适用于复向量空间，得到的结果是酉矩阵，证明方法与**性质10**类似，只是将转置符号缓存伴随符号$H$。
+
 证毕！
 
-**性质13：反埃尔米特矩阵可对角化**
+**性质12：反埃尔米特矩阵可对角化**
 
 证明：
 
+证明方法类似**性质10**，下面只列出关键不同的地方，
+
+$$
+  Ax=X
+    \begin{bmatrix}
+      \lambda_1 & b^H \\
+      0 & B_{n-1}
+    \end{bmatrix} \\
+  \Rightarrow X^HAX = \begin{bmatrix}
+      \lambda_1 & b^H \\
+      0 & B_{n-1}
+    \end{bmatrix} \\
+  \Rightarrow X^HA^HX=X^H(-A)X = \begin{bmatrix}
+      \lambda_1 & b^H \\
+      0 & B_{n-1}
+    \end{bmatrix} \\
+   \Rightarrow X^HAX = \begin{bmatrix}
+      -\lambda_1 & 0 \\
+      -b & -B_{n-1}
+    \end{bmatrix} \\
+    \Rightarrow X^HAX = \begin{bmatrix}
+      0 & 0 \\
+      0 & S_B^H \Lambda_B S_B
+    \end{bmatrix}
+$$
+
+
 证毕！
+
+
+## 总结
+
+* 对称矩阵复空间推广是埃尔米特矩阵$A^H=A$
+* 反对称矩阵复空间推广是反埃尔米特矩阵$A^H=-A$
+* 标准正交矩阵复空间推广是酉矩阵$U^HU=I$
+* 向量点积复空间推广$<x,y>=x^Hy$
+* 埃尔米特矩阵(包括实对称矩阵)，反埃尔米特矩阵(包括反实对称矩阵)可对角化，即特征向量充足
+* 埃尔米特矩阵(包括实对称矩阵)全为实数
+* 反埃尔米特矩阵(包括反实对称矩阵)特征值全部为虚数
+
+
+练习题
+
+教材341页，30~32题
+
