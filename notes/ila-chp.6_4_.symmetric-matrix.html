@@ -125,6 +125,10 @@ $(document).ready(function () {
 <div class="section level2">
 <h2>共轭复数相关性质</h2>
 <p><strong>定义1：共轭复数</strong> <span class="math">\(\lambda= a + i b\)</span>与<span class="math">\(\bar{\lambda}= a - i b\)</span>互为共轭复数。</p>
+<p><strong>例1</strong> 共轭复数例子</p>
+<p>令<span class="math">\(a=1+i,b=1-i\)</span>，</p>
+<p>有<span class="math">\(\bar{ab}={(1+i)(1-i)}=2\)</span></p>
+<p><span class="math">\(\bar{a}\bar{b}=(1-i)(1+i)=2\)</span></p>
 <p><strong>性质1：复数共轭乘法</strong> <span class="math">\(\bar{ab}=\bar{a}\bar{b}\)</span>。</p>
 <p>证明：</p>
 <p>令<span class="math">\(a=a_1+ia_2,b=b_1 + ib_2\)</span></p>
@@ -140,8 +144,12 @@ $(document).ready(function () {
 <div class="section level2">
 <h2>特殊矩阵的特征值</h2>
 <p>特征值非常容易产生复数，因为本质上特征值是求解一个一元多项式的根。但是，有一类矩阵的特征值全是实数，还有一类矩阵的特征值全是虚数，大多数矩阵是介于这两类之间，也就是特征值由复数组成。在实数矩阵中，如果特征值出现复数，那么一定是共轭复数对，由<strong>性质3</strong>可以轻易证明(<span class="math">\(Ax=\lambda x \Rightarrow \bar{Ax}=\bar{\lambda x} \Rightarrow \bar{A}\bar{x}=A\bar{x}=\bar{\lambda}\bar{x}\)</span>)。</p>
+<p><strong>例2</strong> 实对称矩阵特征值与特征向量</p>
+<p><span class="math">\[
+  A = \begin{bmatrix}1&amp;3 \\ 3&amp;1\end{bmatrix}
+\]</span></p>
+<p><span class="math">\(\lambda_1=4,\lambda_2=-2\)</span>,<span class="math">\(x_1=\begin{bmatrix}1&amp;1\end{bmatrix}^T,x_2=\begin{bmatrix}1&amp;-1\end{bmatrix}^T\)</span>。特征值为实数，特征向量正交。</p>
 <p><strong>性质5：实对称矩阵特征值全为实数</strong></p>
-<p><em>补一个例子</em></p>
 <p>证明：</p>
 <p>对任意特征向量<span class="math">\(x\)</span>与特征值<span class="math">\(\lambda\)</span>，<span class="math">\(Ax=\lambda x\)</span>。</p>
 <p>根据性质2，有</p>
@@ -166,6 +174,11 @@ $(document).ready(function () {
 \]</span></p>
 <p>其实在复数范围，除了对称，添加了共轭操作。</p>
 <p><strong>定义3：复向量内积</strong> 若<span class="math">\(x,y \in C^n\)</span>,那么<span class="math">\(x \bullet y = \bar{x}^Ty=x^Hy\)</span>，这样定义可以保证<span class="math">\(x \bullet x \ge 0\)</span>，同时兼容实数域向量点积。</p>
+<p><strong>例3</strong> 复空间向量内积</p>
+<p><span class="math">\(x=\begin{bmatrix}1-i \\ 1+2i\end{bmatrix},y=\begin{bmatrix}i \\ i\end{bmatrix}\)</span></p>
+<p><span class="math">\(x \bullet y = x^Hy=\begin{bmatrix}1+i &amp;&amp; 1-2i\end{bmatrix}\begin{bmatrix}i \\ i\end{bmatrix}=1+2i\)</span></p>
+<p><span class="math">\(y \bullet x = \begin{bmatrix}-i &amp;&amp; -i\end{bmatrix}\begin{bmatrix}1-i \\ 1+2i\end{bmatrix}=1-2i\)</span></p>
+<p>交换后，得到的结果不一致，但是共轭。</p>
 <p><strong>性质6：埃尔米特矩阵的特征值全为实数</strong></p>
 <p>实对称矩阵是埃尔米特矩阵的特例，埃尔米特矩阵是实对称矩阵在复数域的推广。</p>
 <p>证明：</p>
@@ -193,6 +206,7 @@ $(document).ready(function () {
   A^H=-A
 \]</span></p>
 <p><strong>性质7：反埃尔米特矩阵的特征值全为虚数</strong></p>
+<p><em>补个例子</em></p>
 <p>证明：</p>
 <p>方法大致相同，关键步骤如下</p>
 <p><span class="math">\[
@@ -347,6 +361,20 @@ $(document).ready(function () {
 </ul>
 <p>练习题</p>
 <p>教材341页，30~32题</p>
+<p><strong>练习1</strong> 实对称矩阵A，假设<span class="math">\(\lambda_{max}\)</span>是最大特征值，证明<span class="math">\(a_11\le \lambda_{max}\)</span>。</p>
+<p><span class="math">\[
+  A = \sum_{i}^n \lambda_i q_i q_i^T
+\]</span></p>
+<p><span class="math">\[
+  a_{11} = \sum_{i}^n \lambda_i q_{i1}^2 \le \lambda_{max} \sum_{i}^n q_{i1}^2 = \lambda_{max}
+\]</span></p>
+<p><strong>练习2</strong> 反实对称矩阵A(<span class="math">\(=-A^T\)</span>)，证明<span class="math">\(det(A) \ge 0\)</span>？</p>
+<p>当n为偶数,所有特征值为共轭虚数，成对出现，特征值等于特征值的积，必须大于等于0.</p>
+<p>当n为奇数，<span class="math">\(det(A) = (-1)^ndet(A) = -det(A), det(A) = 0\)</span></p>
+<p><strong>练习3</strong> A是实对称矩阵，且所有特征值为2，那么A是什么？</p>
+<p><span class="math">\[
+  A = Q\Lambda Q^T = Q2IQ^T = 2I 
+\]</span></p>
 </div>
 
 
